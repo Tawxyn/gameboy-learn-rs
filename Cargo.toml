@@ -1,0 +1,18 @@
+[package]
+name = "gameboy-learn-rs"
+version = "0.1.0"
+edition = "2024"
+autobins = false
+
+[lib]
+name = "gameboy_learn_rs"
+path = "src/main.rs"
+crate-type = ["staticlib"]
+
+[dependencies]
+gb-rt = { path = "../rust-gb/crates/gb-rt" }
+gbdk-sys = { path = "../rust-gb/crates/gbdk-sys" }
+
+[profile.release]
+opt-level = "s"
+lto = "fat"
