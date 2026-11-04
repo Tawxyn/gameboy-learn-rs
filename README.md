@@ -1,17 +1,12 @@
 # gameboy-learn-rs
 
-A Game Boy project based on rust-gb's minimal template.
+My personal project for learning Game Boy development in Rust and building a game along the way.
 
-Edit `src/main.rs` for your game and `header.toml` for the cartridge settings.
+Built with [rust-gb](https://github.com/zlfn/rust-gb) and
+[rust-z80](https://github.com/llvm-z80/rust-z80), using SameBoy for emulation.
+
+My one-time macOS setup for launching SameBoy with `cargo gb run`:
 
 ```sh
-cargo gb build
-cargo gb run
+ln -s "$HOME/dev/gameboy-learn-rs/scripts/sameboy.sh" "$HOME/.cargo/bin/sameboy"
 ```
-
-The ROM is written to `target/gameboy-learn-rs.gb`. Running requires an emulator
-(`sameboy` by default, or the command set in `EMULATOR`).
-
-This project uses the registered `rust-z80` toolchain and the installed `cargo-gb`
-command. Its library dependencies point to the sibling `../rust-gb` checkout.
-Keep that checkout and the linked toolchain at `../rust-z80/install` available.
