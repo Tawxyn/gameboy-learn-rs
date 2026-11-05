@@ -8,10 +8,12 @@ autobins = false
 name = "gameboy_learn_rs"
 path = "src/main.rs"
 crate-type = ["staticlib"]
+test = false
+doctest = false
+bench = false
 
 [dependencies]
-gb-rt = { path = "../rust-gb/crates/gb-rt" }
-gbdk-sys = { path = "../rust-gb/crates/gbdk-sys" }
+rust-gb = { path = "../rust-gb/crates/gb/", features = ["cgb"] }
 
 [profile.release]
 opt-level = "s"

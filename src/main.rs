@@ -1,25 +1,35 @@
-//! Minimal rust-gb project template: prints "Hello, World!" and idles.
-//!
-//! Copy this directory to start a new Game Boy project, then build the ROM with
-//! `cargo gb build` (output lands in `target/`).
-
 #![no_std]
 #![no_main]
 
-use core::ffi::c_char;
-use gbdk_sys::stdio::printf;
+use gb::ppu::{self, map, bg, tile, palette};
+use gb::mmio::{Palette, Shade};
 
-#[gb_rt::entry]
+pub type Tile = [u8; 16];
+
+const CHECKER: Tile = [
+    0b01010101, 0b00000000,
+    0b10101010, 0b00000000,
+    0b01010101, 0b00000000,
+    0b10101010, 0b00000000,
+    0b01010101, 0b00000000,
+    0b10101010, 0b00000000,
+    0b01010101, 0b00000000,
+    0b10101010, 0b00000000,
+];
+
+#[gb::rt::entry]
 fn main() -> ! {
-    unsafe {
-        // Set up the GBDK runtime (display, console font, interrupts).
-        gbdk_sys::init();
+   
+    ppu::with_lcd_off(|access| {
+        tile::write(access, 0, &CHECKER);
+        tile::set_addressing(tile::Addressing::Base8000);
+        map::set(access, bg::map(), 0, 0, 0);
 
-        // C strings must be NUL-terminated.
-        printf(b"Hello, Rust-GB!\n\0".as_ptr() as *const c_char);
-    }
+        palette::set_background(Palette::new().with_id0(Shade::White).with_id1(Shade::Black));
+        bg::set_enabled(true);
+    });
 
-    // A Game Boy program never returns; spin forever.
+    
     loop {}
 }
 
